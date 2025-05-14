@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="50" height="50" rx="10" fill="#4D9CFF"/>
-  <path d="M15 15H35V35H15V15Z" fill="white"/>
-  <text x="60" y="35" font-family="Arial" font-size="24" font-weight="bold" fill="white">Clary AI</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40" viewBox="0 0 120 40" fill="none">
+  <path d="M20 10h-4l-3 9L9 3l-3 9H2" stroke="#4D9CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="30" y="25" font-family="Arial" font-size="16" fill="#FFFFFF">Clary AI</text>
 </svg>
