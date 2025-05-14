@@ -1,10 +1,16 @@
 {
   "name": "Clary AI Documentation",
+  "theme": "mint",
+  "colors": {
+    "primary": "#0069ED",
+    "light": "#4D9CFF",
+    "dark": "#0050B4"
+  },
   "navigation": [
     {
       "group": "Getting Started",
       "pages": [
-        "test2"
+        "index"
       ]
     }
   ]
