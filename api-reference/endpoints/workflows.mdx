@@ -1,0 +1,48 @@
+---
+title: "Workflows API"
+description: "API endpoints for workflow management"
+---
+
+# Workflows API
+
+The Workflows API allows you to create, manage, and execute document processing workflows.
+
+## Create a Workflow
+
+```bash
+curl -X POST https://api.claryai.com/v1/workflows \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Invoice Processing",
+    "description": "Extract data from invoices",
+    "tasks": [
+      {
+        "type": "text_extraction",
+        "config": { "engine": "ocr" }
+      },
+      {
+        "type": "entity_extraction",
+        "config": { "entities": ["invoice_number", "date", "total"] }
+      }
+    ]
+  }'
+```
+
+## List Workflows
+
+```bash
+curl -X GET https://api.claryai.com/v1/workflows \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## Execute a Workflow
+
+```bash
+curl -X POST https://api.claryai.com/v1/workflows/{workflow_id}/execute \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "document_id": "doc_123456"
+  }'
+```

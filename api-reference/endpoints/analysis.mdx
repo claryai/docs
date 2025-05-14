@@ -1,0 +1,54 @@
+---
+title: "Analysis API"
+description: "API endpoints for document analysis"
+---
+
+# Analysis API
+
+The Analysis API allows you to perform various types of analysis on documents.
+
+## Extract Text
+
+```bash
+curl -X POST https://api.claryai.com/v1/analysis/extract-text \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "document_id": "doc_123456"
+  }'
+```
+
+## Extract Entities
+
+```bash
+curl -X POST https://api.claryai.com/v1/analysis/extract-entities \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "document_id": "doc_123456",
+    "entities": ["person", "organization", "date", "money"]
+  }'
+```
+
+## Extract Tables
+
+```bash
+curl -X POST https://api.claryai.com/v1/analysis/extract-tables \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "document_id": "doc_123456"
+  }'
+```
+
+## Classify Document
+
+```bash
+curl -X POST https://api.claryai.com/v1/analysis/classify \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "document_id": "doc_123456",
+    "categories": ["invoice", "receipt", "contract", "report"]
+  }'
+```

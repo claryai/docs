@@ -1,0 +1,72 @@
+---
+title: "Upgrade Guide"
+description: "Guide for upgrading between Clary AI tiers"
+---
+
+# Upgrade Guide
+
+This guide provides instructions for upgrading between Clary AI tiers.
+
+## Lite to Standard
+
+### Prerequisites
+
+- Clary AI Lite installed and running
+- API key for Standard tier
+
+### Upgrade Steps
+
+1. Stop the Clary AI Lite container
+   ```bash
+   docker stop clary-ai-lite
+   ```
+
+2. Pull the Standard tier image
+   ```bash
+   docker pull claryai/clary-ai-standard:latest
+   ```
+
+3. Run the Standard tier container
+   ```bash
+   docker run -p 8000:8000 -e API_KEY=your_api_key -v /path/to/data:/app/data claryai/clary-ai-standard:latest
+   ```
+
+4. Verify the upgrade
+   - Access the web interface at `http://localhost:8000`
+   - Check that the Standard tier features are available
+
+## Standard to Professional
+
+### Prerequisites
+
+- Clary AI Standard installed and running
+- API key for Professional tier
+
+### Upgrade Steps
+
+1. Stop the Clary AI Standard container
+   ```bash
+   docker stop clary-ai-standard
+   ```
+
+2. Pull the Professional tier image
+   ```bash
+   docker pull claryai/clary-ai-professional:latest
+   ```
+
+3. Run the Professional tier container
+   ```bash
+   docker run -p 8000:8000 -e API_KEY=your_api_key -v /path/to/data:/app/data claryai/clary-ai-professional:latest
+   ```
+
+4. Verify the upgrade
+   - Access the web interface at `http://localhost:8000`
+   - Check that the Professional tier features are available
+
+## Data Migration
+
+All tiers use the same data format, so your data will be automatically migrated when you upgrade.
+
+## Troubleshooting
+
+If you encounter issues during the upgrade process, please contact support.
