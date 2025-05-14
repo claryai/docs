@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "venus",
   "name": "Clary AI Documentation",
   "logo": {
     "light": "/images/logo-light.svg",
@@ -10,64 +10,68 @@
   "colors": {
     "primary": "#0069ED",
     "light": "#4D9CFF",
-    "dark": "#0050B4",
-    "background": {
-      "dark": "#121212"
-    }
+    "dark": "#0050B4"
   },
-  "topbarLinks": [
-    {
-      "name": "GitHub",
-      "url": "https://github.com/claryai"
-    }
-  ],
-  "topbarCtaButton": {
-    "name": "Get Started",
-    "url": "https://claryai.com"
-  },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    },
-    {
-      "name": "Tier Comparison",
-      "url": "tiers/overview"
-    }
-  ],
-  "navigation": {
-    "Getting Started": [
-      "introduction",
-      "quickstart",
-      "installation"
-    ],
-    "Core Concepts": [
-      "concepts/document-processing/index",
-      "concepts/workflow-engine/index",
-      "concepts/ai-models/index"
-    ],
-    "API Reference": [
-      "api-reference/overview",
-      "api-reference/authentication",
+  "navbar": {
+    "links": [
       {
-        "group": "Endpoints",
-        "pages": [
-          "api-reference/endpoints/documents",
-          "api-reference/endpoints/workflows",
-          "api-reference/endpoints/analysis"
-        ]
+        "label": "GitHub",
+        "href": "https://github.com/claryai"
       }
     ],
-    "Tier Comparison": [
-      "tiers/overview",
-      "tiers/lite",
-      "tiers/standard",
-      "tiers/professional",
-      "tiers/upgrade-guide"
-    ]
+    "primary": {
+      "type": "button",
+      "label": "Get Started",
+      "href": "https://claryai.com"
+    }
   },
-  "footerSocials": {
-    "github": "https://github.com/claryai"
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "introduction",
+        "quickstart",
+        "installation"
+      ]
+    },
+    {
+      "group": "Core Concepts",
+      "pages": [
+        "concepts/document-processing/index",
+        "concepts/workflow-engine/index",
+        "concepts/ai-models/index"
+      ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        "api-reference/overview",
+        "api-reference/authentication",
+        {
+          "group": "Endpoints",
+          "pages": [
+            "api-reference/endpoints/documents",
+            "api-reference/endpoints/workflows",
+            "api-reference/endpoints/analysis"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Tier Comparison",
+      "pages": [
+        "tiers/overview",
+        "tiers/lite",
+        "tiers/standard",
+        "tiers/professional",
+        "tiers/upgrade-guide"
+      ]
+    }
+  ],
+  "footer": {
+    "socials": {
+      "github": "https://github.com/claryai"
+    }
   },
   "analytics": {
     "ga4": {
