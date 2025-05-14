@@ -1,11 +1,81 @@
 {
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
   "name": "Clary AI Documentation",
-  "navigation": [
-    {
-      "group": "Getting Started",
-      "pages": [
-        "test2"
-      ]
+  "logo": {
+    "light": "/images/logo-light.svg",
+    "dark": "/images/logo-dark.svg"
+  },
+  "favicon": "/images/favicon.svg",
+  "colors": {
+    "primary": "#0069ED",
+    "light": "#4D9CFF",
+    "dark": "#0050B4",
+    "background": {
+      "dark": "#121212"
     }
-  ]
+  },
+  "topbarLinks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/claryai"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Get Started",
+    "url": "https://claryai.com"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    },
+    {
+      "name": "Tier Comparison",
+      "url": "tiers/overview"
+    }
+  ],
+  "navigation": {
+    "Getting Started": [
+      "introduction",
+      "quickstart",
+      "installation"
+    ],
+    "Core Concepts": [
+      "concepts/document-processing/index",
+      "concepts/workflow-engine/index",
+      "concepts/ai-models/index"
+    ],
+    "API Reference": [
+      "api-reference/overview",
+      "api-reference/authentication",
+      {
+        "group": "Endpoints",
+        "pages": [
+          "api-reference/endpoints/documents",
+          "api-reference/endpoints/workflows",
+          "api-reference/endpoints/analysis"
+        ]
+      }
+    ],
+    "Tier Comparison": [
+      "tiers/overview",
+      "tiers/lite",
+      "tiers/standard",
+      "tiers/professional",
+      "tiers/upgrade-guide"
+    ]
+  },
+  "footerSocials": {
+    "github": "https://github.com/claryai"
+  },
+  "analytics": {
+    "ga4": {
+      "measurementId": "G-XXXXXXXXXX"
+    }
+  },
+  "feedback": {
+    "suggestEdit": true,
+    "raiseIssue": true
+  }
 }
