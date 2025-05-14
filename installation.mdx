@@ -1,0 +1,208 @@
+---
+title: "Installation Guide"
+description: "Detailed instructions for installing Clary AI in various environments"
+---
+
+# Installation Guide
+
+This guide provides detailed instructions for installing Clary AI in various environments.
+
+## System Requirements
+
+Before installing Clary AI, ensure your system meets the following requirements:
+
+<Tabs>
+  <Tab title="Lite">
+    - Docker Engine 20.10.0 or later
+    - 2GB RAM minimum (4GB recommended)
+    - 10GB free disk space
+    - Internet connection for pulling Docker images
+  </Tab>
+  <Tab title="Standard">
+    - Docker Engine 20.10.0 or later
+    - 4GB RAM minimum (8GB recommended)
+    - 20GB free disk space
+    - Internet connection for pulling Docker images
+  </Tab>
+  <Tab title="Professional">
+    - Docker Engine 20.10.0 or later
+    - 8GB RAM minimum (16GB recommended)
+    - 40GB free disk space
+    - Internet connection for pulling Docker images
+  </Tab>
+</Tabs>
+
+## Docker Installation
+
+The recommended way to install Clary AI is using Docker:
+
+<CodeGroup>
+```bash Lite
+# Pull the Clary AI Lite Docker image
+docker pull claryai/lite:latest
+
+# Run the container
+docker run -p 8080:8080 claryai/lite:latest
+```
+
+```bash Standard
+# Pull the Clary AI Standard Docker image
+docker pull claryai/standard:latest
+
+# Run the container
+docker run -p 8080:8080 claryai/standard:latest
+```
+
+```bash Professional
+# Pull the Clary AI Professional Docker image
+docker pull claryai/professional:latest
+
+# Run the container
+docker run -p 8080:8080 claryai/professional:latest
+```
+</CodeGroup>
+
+## Docker Compose Setup
+
+For production environments, we recommend using Docker Compose:
+
+<CodeGroup>
+```yaml Lite
+version: '3'
+services:
+  claryai:
+    image: claryai/lite:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - CLARY_API_KEY=your_api_key
+      - CLARY_STORAGE_PATH=/app/data
+```
+
+```yaml Standard
+version: '3'
+services:
+  claryai:
+    image: claryai/standard:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - CLARY_API_KEY=your_api_key
+      - CLARY_STORAGE_PATH=/app/data
+```
+
+```yaml Professional
+version: '3'
+services:
+  claryai:
+    image: claryai/professional:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - CLARY_API_KEY=your_api_key
+      - CLARY_STORAGE_PATH=/app/data
+      - CLARY_CLOUD_LLM_API_KEY=your_cloud_llm_api_key
+```
+</CodeGroup>
+
+Save this as `docker-compose.yml` and run:
+
+```bash
+docker-compose up -d
+```
+
+## Manual Installation
+
+If you prefer not to use Docker, you can install Clary AI manually:
+
+<Steps>
+  <Step title="Clone the Repository">
+    ```bash
+    git clone https://github.com/claryai/claryai.git
+    cd claryai
+    ```
+  </Step>
+  <Step title="Install Dependencies">
+    ```bash
+    pip install -r requirements.txt
+    ```
+  </Step>
+  <Step title="Configure the Application">
+    ```bash
+    cp .env.example .env
+    # Edit .env with your configuration
+    ```
+  </Step>
+  <Step title="Run the Application">
+    ```bash
+    python app.py
+    ```
+  </Step>
+</Steps>
+
+## Verifying Installation
+
+To verify that Clary AI is running correctly:
+
+1. Open your browser and navigate to `http://localhost:8080`
+2. You should see the Clary AI login page
+3. Try processing a document using the API:
+   ```bash
+   curl -X POST \
+     http://localhost:8080/api/v1/documents \
+     -H "Authorization: Bearer YOUR_API_KEY" \
+     -F "file=@/path/to/your/document.pdf"
+   ```
+
+## Environment Variables
+
+Clary AI can be configured using the following environment variables:
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `CLARY_API_KEY` | API key for authentication | None (required) |
+| `CLARY_STORAGE_PATH` | Path to store documents | `/app/data` |
+| `CLARY_LOG_LEVEL` | Logging level | `INFO` |
+| `CLARY_PORT` | Port to run the server on | `8080` |
+| `CLARY_HOST` | Host to bind the server to | `0.0.0.0` |
+| `CLARY_CLOUD_LLM_API_KEY` | API key for cloud LLM (Professional tier only) | None |
+
+## Troubleshooting
+
+If you encounter issues during installation:
+
+<Accordion title="Container fails to start">
+Check Docker logs for more information:
+```bash
+docker logs claryai
+```
+
+Common issues include:
+- Insufficient memory
+- Port 8080 already in use (change the port mapping in your Docker command)
+- Missing environment variables
+</Accordion>
+
+<Accordion title="API connection issues">
+If you can't connect to the API:
+- Ensure the container is running: `docker ps`
+- Check that you're using the correct URL and port
+- Verify that your API key is correct
+- Check firewall settings
+</Accordion>
+
+<Accordion title="Document processing errors">
+If document processing fails:
+- Ensure the document format is supported
+- Check that the document is not corrupted
+- Verify that you have sufficient disk space
+- Check the logs for specific error messages
+</Accordion>
+
+For more help, visit our [community forum](https://community.claryai.com) or [open an issue](https://github.com/claryai/claryai/issues).

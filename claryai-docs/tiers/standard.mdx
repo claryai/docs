@@ -1,0 +1,203 @@
+---
+title: "Standard Tier"
+description: "Details of the Clary AI Standard tier"
+---
+
+# Clary AI Standard Tier
+
+The Clary AI Standard tier provides enhanced document processing capabilities with Phi-4 Multimodal integration. It's designed for businesses that need advanced document analysis without the complexity of cloud LLM connections.
+
+## Overview
+
+<Card title="Standard Tier" icon="rocket" iconType="duotone">
+  **$299/month**
+  
+  - 5,000 pages/month
+  - Advanced document processing
+  - Phi-4 Multimodal integration
+  - Email support
+  
+  [Get Started](/getting-started/quickstart)
+</Card>
+
+## Key Features
+
+### Document Processing
+
+The Standard tier includes advanced document processing capabilities:
+
+- **Supported File Formats**: PDF, DOCX, XLSX, PPTX, JPG, PNG, TIFF, HTML
+- **Maximum File Size**: 50MB per document
+- **OCR Capabilities**: Advanced OCR with layout preservation and table detection
+- **Processing Speed**: Priority processing queue
+
+### AI Integration
+
+The Standard tier includes Phi-4 Multimodal integration:
+
+- **Pre-integrated Model**: Microsoft's Phi-4 Multimodal (4.8B parameters)
+- **Local Processing**: All AI processing happens locally, ensuring data privacy
+- **Multimodal Capabilities**: Process both text and images with integrated understanding
+- **Custom Model Support**: Limited support for integrating your own models
+
+### API Access
+
+The Standard tier provides enhanced API access:
+
+- **Rate Limits**: 500 requests per minute
+- **API Keys**: Up to 20 active API keys
+- **Endpoints**: All document processing and analysis endpoints
+- **Webhooks**: Support for webhook notifications
+
+### Workflows
+
+The Standard tier includes advanced workflow capabilities:
+
+- **Workflow Templates**: 20 pre-built workflow templates
+- **Custom Workflows**: Full custom workflow creation
+- **Workflow Complexity**: Conditional workflows with branching
+- **Processors per Workflow**: Up to 20 processors per workflow
+- **Error Handling**: Advanced error handling and retries
+
+### Support
+
+The Standard tier includes email support:
+
+- **Email Support**: Dedicated email support with 24-hour response time
+- **Community Forum**: Priority access to the Clary AI community forum
+- **Documentation**: Comprehensive documentation with advanced examples
+- **SLA**: 99% uptime guarantee
+
+## Use Cases
+
+The Standard tier is ideal for:
+
+<CardGroup cols={2}>
+  <Card title="Accounting Departments" icon="calculator">
+    Process invoices, extract key data, and integrate with accounting software.
+  </Card>
+  <Card title="HR Departments" icon="users">
+    Process resumes, extract candidate information, and streamline hiring workflows.
+  </Card>
+  <Card title="Legal Teams" icon="gavel">
+    Analyze contracts, extract key clauses, and identify potential risks.
+  </Card>
+  <Card title="Research Organizations" icon="flask">
+    Process research papers, extract data, and identify trends across documents.
+  </Card>
+</CardGroup>
+
+## Phi-4 Multimodal Integration
+
+The Standard tier includes Microsoft's Phi-4 Multimodal model, a powerful open-source AI model that can understand both text and images:
+
+<Tabs>
+  <Tab title="Text Understanding">
+    Phi-4 can comprehend document content, extract key information, and answer questions about the document:
+    
+    ```json
+    {
+      "query": "What is the total amount of this invoice?",
+      "context": "Invoice #12345\nDate: 2024-05-15\nCustomer: Acme Corp\nTotal: $1,250.00",
+      "response": "The total amount of this invoice is $1,250.00."
+    }
+    ```
+  </Tab>
+  <Tab title="Image Analysis">
+    Phi-4 can analyze images within documents, identify objects, and extract text from images:
+    
+    ```json
+    {
+      "query": "What does this chart show?",
+      "image": "base64_encoded_image",
+      "response": "The chart shows quarterly sales figures for 2023, with Q3 having the highest sales at $1.2M."
+    }
+    ```
+  </Tab>
+  <Tab title="Multimodal Reasoning">
+    Phi-4 can combine understanding of text and images to provide comprehensive document analysis:
+    
+    ```json
+    {
+      "query": "Does the data in the table match the chart?",
+      "context": "Q1: $0.8M, Q2: $0.9M, Q3: $1.2M, Q4: $1.0M",
+      "image": "base64_encoded_chart_image",
+      "response": "Yes, the data in the table matches the chart. Both show quarterly sales with Q3 having the highest value at $1.2M."
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Example: Processing a Document with AI Analysis
+
+Here's an example of processing a document with AI analysis in the Standard tier:
+
+<Steps>
+  <Step title="Upload Document">
+    ```bash
+    curl -X POST \
+      https://your-clary-instance:8080/api/v1/documents \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -F "file=@/path/to/invoice.pdf" \
+      -F 'options={"ai_analysis": true}'
+    ```
+  </Step>
+  <Step title="Check Processing Status">
+    ```bash
+    curl -X GET \
+      https://your-clary-instance:8080/api/v1/documents/DOCUMENT_ID \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Step>
+  <Step title="Retrieve AI Analysis">
+    ```bash
+    curl -X GET \
+      https://your-clary-instance:8080/api/v1/documents/DOCUMENT_ID/analysis \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Step>
+  <Step title="Ask Questions About the Document">
+    ```bash
+    curl -X POST \
+      https://your-clary-instance:8080/api/v1/documents/DOCUMENT_ID/query \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{"query": "What is the invoice total?"}'
+    ```
+  </Step>
+</Steps>
+
+## Hardware Requirements
+
+To run the Standard tier with Phi-4 Multimodal, your system should meet the following requirements:
+
+- **CPU**: 8-core CPU (Intel i7/i9 or AMD Ryzen 7/9)
+- **RAM**: 16GB minimum (32GB recommended)
+- **GPU**: Optional but recommended for faster processing (NVIDIA GPU with 8GB VRAM)
+- **Storage**: 50GB free disk space
+- **Network**: Broadband internet connection
+
+## Frequently Asked Questions
+
+<Accordion title="Can I upgrade from Standard to Professional later?">
+  Yes, you can upgrade to the Professional tier at any time. Your existing documents and workflows will be preserved, and you'll gain access to additional features immediately. Billing will be prorated for the remainder of your billing cycle.
+</Accordion>
+
+<Accordion title="Does Phi-4 Multimodal require internet access?">
+  No, Phi-4 Multimodal runs entirely locally within your Clary AI instance. This ensures data privacy and allows you to use it in environments without internet access.
+</Accordion>
+
+<Accordion title="What happens if I exceed my monthly page limit?">
+  If you exceed your monthly page limit of 5,000 pages, additional pages will be billed at $0.07 per page. You can also upgrade to the Professional tier if you consistently need more pages.
+</Accordion>
+
+<Accordion title="Can I customize the AI model's behavior?">
+  Yes, you can customize the behavior of Phi-4 Multimodal through configuration options and prompt engineering. The Standard tier also supports limited integration with custom models.
+</Accordion>
+
+## Next Steps
+
+- [Get started](/getting-started/quickstart) with Clary AI Standard
+- [Compare tiers](/tiers/overview) to see if Professional might better suit your needs
+- [Explore the API](/api-reference/overview) to learn how to integrate Clary AI into your applications
+- [Learn about workflows](/concepts/workflow-engine) to automate your document processing

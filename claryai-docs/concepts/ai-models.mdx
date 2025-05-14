@@ -1,0 +1,199 @@
+---
+title: "AI Models"
+description: "Understanding the AI models used in Clary AI"
+---
+
+# AI Models
+
+Clary AI leverages various AI models to enhance document processing capabilities. This page explains the AI models used in Clary AI and how they improve document understanding.
+
+## AI Model Integration
+
+Clary AI's approach to AI model integration varies by tier:
+
+<Tabs>
+  <Tab title="Lite">
+    The Lite tier does not include pre-integrated AI models. However, it provides a flexible architecture that allows you to integrate your own AI models through the API.
+  </Tab>
+  <Tab title="Standard">
+    The Standard tier includes Phi-4 Multimodal, a powerful open-source AI model that provides advanced document understanding capabilities without requiring cloud connectivity.
+  </Tab>
+  <Tab title="Professional">
+    The Professional tier includes cloud LLM connections, allowing you to leverage state-of-the-art AI models for the most advanced document understanding capabilities.
+  </Tab>
+</Tabs>
+
+## Phi-4 Multimodal (Standard Tier)
+
+The Standard tier of Clary AI includes Microsoft's Phi-4 Multimodal model, a powerful open-source AI model that can understand both text and images.
+
+### Key Capabilities
+
+- **Text Understanding**: Comprehend document content, extract key information, and answer questions about the document.
+- **Image Analysis**: Analyze images within documents, identify objects, and extract text from images.
+- **Multimodal Reasoning**: Combine understanding of text and images to provide comprehensive document analysis.
+- **Local Processing**: All processing happens locally, ensuring data privacy and reducing latency.
+
+### Technical Specifications
+
+- **Model Size**: 4.8 billion parameters
+- **Context Window**: 8,192 tokens
+- **Input Formats**: Text and images
+- **Hardware Requirements**: 
+  - Minimum: 8GB RAM, 4-core CPU
+  - Recommended: 16GB RAM, 8-core CPU, GPU with 8GB VRAM
+
+### Use Cases
+
+- **Document Classification**: Automatically categorize documents based on their content.
+- **Information Extraction**: Extract specific information from documents, such as names, dates, and amounts.
+- **Document Summarization**: Generate concise summaries of document content.
+- **Question Answering**: Answer specific questions about document content.
+
+## Cloud LLM Connections (Professional Tier)
+
+The Professional tier of Clary AI includes connections to cloud-based Large Language Models (LLMs), providing the most advanced document understanding capabilities.
+
+### Supported Cloud LLMs
+
+<CardGroup cols={3}>
+  <Card title="OpenAI GPT-4" icon="openai">
+    State-of-the-art language model with advanced reasoning capabilities.
+  </Card>
+  <Card title="Anthropic Claude" icon="robot">
+    Powerful language model with strong understanding of complex documents.
+  </Card>
+  <Card title="Google Gemini" icon="google">
+    Advanced multimodal model with strong document understanding capabilities.
+  </Card>
+</CardGroup>
+
+### Key Capabilities
+
+- **Advanced Reasoning**: Understand complex documents and extract nuanced information.
+- **Zero-Shot Learning**: Process new document types without specific training.
+- **Chain-of-Thought Processing**: Break down complex document analysis into logical steps.
+- **Multimodal Understanding**: Process text, tables, and images with integrated understanding.
+
+### Configuration Options
+
+You can configure which cloud LLM to use and how to use it:
+
+```json
+{
+  "cloud_llm": {
+    "provider": "openai",
+    "model": "gpt-4",
+    "api_key": "{{env.OPENAI_API_KEY}}",
+    "temperature": 0.1,
+    "max_tokens": 1000
+  }
+}
+```
+
+### Cost Management
+
+The Professional tier includes features to help manage the cost of cloud LLM usage:
+
+- **Caching**: Cache responses to avoid redundant API calls.
+- **Rate Limiting**: Set limits on the number of API calls.
+- **Cost Tracking**: Monitor and report on API usage and costs.
+- **Fallback Options**: Configure fallback to local models when appropriate.
+
+## Custom Model Integration
+
+All tiers of Clary AI allow you to integrate your own AI models:
+
+### Integration Methods
+
+<Tabs>
+  <Tab title="API Integration">
+    Integrate external AI models through REST API calls:
+    
+    ```json
+    {
+      "custom_model": {
+        "type": "api",
+        "url": "https://your-model-api.example.com/predict",
+        "method": "POST",
+        "headers": {
+          "Authorization": "Bearer {{env.MODEL_API_KEY}}"
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Container Integration">
+    Deploy your models as containers that can be integrated with Clary AI:
+    
+    ```json
+    {
+      "custom_model": {
+        "type": "container",
+        "image": "your-org/your-model:latest",
+        "port": 8000,
+        "environment": {
+          "MODEL_CONFIG": "path/to/config.json"
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Python Integration">
+    Integrate Python-based models directly:
+    
+    ```json
+    {
+      "custom_model": {
+        "type": "python",
+        "module": "your_model_module",
+        "class": "YourModelClass",
+        "init_args": {
+          "model_path": "path/to/model.pt"
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Model Selection and Fallback
+
+Clary AI allows you to configure model selection and fallback strategies:
+
+```json
+{
+  "model_selection": {
+    "default": "phi-4-multimodal",
+    "document_types": {
+      "invoice": "cloud-llm",
+      "receipt": "custom-receipt-model",
+      "general": "phi-4-multimodal"
+    },
+    "fallback": {
+      "cloud-llm": "phi-4-multimodal",
+      "phi-4-multimodal": "basic-extraction"
+    }
+  }
+}
+```
+
+## Best Practices
+
+1. **Choose the right model for the task**: Different models excel at different tasks. Choose the appropriate model based on your document processing needs.
+
+2. **Optimize prompts**: When using LLMs, craft clear and specific prompts to get the best results.
+
+3. **Implement caching**: Cache model responses to improve performance and reduce costs.
+
+4. **Monitor performance**: Regularly evaluate model performance and adjust as needed.
+
+5. **Consider privacy requirements**: Choose local models for sensitive documents if data privacy is a concern.
+
+6. **Test with diverse documents**: Ensure your models work well with a variety of document types and formats.
+
+## Next Steps
+
+- Learn how to [configure AI models](/api-reference/endpoints/analysis) for document analysis
+- Explore [workflow integration](/concepts/workflow-engine) with AI models
+- Understand [document processing](/concepts/document-processing) fundamentals

@@ -1,0 +1,139 @@
+---
+title: "Quickstart Guide"
+description: "Get started with Clary AI in minutes"
+---
+
+# Quickstart Guide
+
+This guide will help you get started with Clary AI quickly. We'll cover installation, basic configuration, and your first document processing task.
+
+## Installation
+
+Clary AI is distributed as Docker containers for easy deployment. To get started:
+
+```bash
+# Pull the Clary AI Docker image (choose your tier)
+docker pull claryai/lite:latest
+# or
+docker pull claryai/standard:latest
+# or
+docker pull claryai/professional:latest
+
+# Run the container
+docker run -p 8080:8080 claryai/lite:latest
+```
+
+## Configuration
+
+After installation, you'll need to configure your Clary AI instance:
+
+<Steps>
+  <Step title="Access the Web Interface">
+    Open your browser and navigate to `http://localhost:8080`
+  </Step>
+  <Step title="Create an Admin Account">
+    Follow the on-screen instructions to create your admin account
+  </Step>
+  <Step title="Configure API Keys">
+    Generate API keys for programmatic access
+  </Step>
+  <Step title="Set Up Document Storage">
+    Configure where processed documents will be stored
+  </Step>
+</Steps>
+
+## Processing Your First Document
+
+Let's process a simple document to test your setup:
+
+<CodeGroup>
+```bash cURL
+curl -X POST \
+  http://localhost:8080/api/v1/documents \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -F "file=@/path/to/your/document.pdf"
+```
+
+```python Python
+import requests
+
+url = "http://localhost:8080/api/v1/documents"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY"
+}
+files = {
+    "file": open("/path/to/your/document.pdf", "rb")
+}
+
+response = requests.post(url, headers=headers, files=files)
+print(response.json())
+```
+
+```javascript JavaScript
+const axios = require('axios');
+const FormData = require('form-data');
+const fs = require('fs');
+
+const form = new FormData();
+form.append('file', fs.createReadStream('/path/to/your/document.pdf'));
+
+axios.post('http://localhost:8080/api/v1/documents', form, {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    ...form.getHeaders()
+  }
+})
+.then(response => {
+  console.log(response.data);
+})
+.catch(error => {
+  console.error(error);
+});
+```
+</CodeGroup>
+
+The response will include a document ID that you can use to retrieve the processed results:
+
+<CodeGroup>
+```bash cURL
+curl -X GET \
+  http://localhost:8080/api/v1/documents/DOCUMENT_ID \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```python Python
+import requests
+
+url = "http://localhost:8080/api/v1/documents/DOCUMENT_ID"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY"
+}
+
+response = requests.get(url, headers=headers)
+print(response.json())
+```
+
+```javascript JavaScript
+const axios = require('axios');
+
+axios.get('http://localhost:8080/api/v1/documents/DOCUMENT_ID', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY'
+  }
+})
+.then(response => {
+  console.log(response.data);
+})
+.catch(error => {
+  console.error(error);
+});
+```
+</CodeGroup>
+
+## Next Steps
+
+Now that you have Clary AI up and running, you might want to:
+
+- Explore the [API Reference](/api-docs/overview) for more advanced usage
+- Learn about [Workflows](/api-docs/endpoints/workflows) for automating document processing
+- Check out the [Tier Comparison](/tiers/overview) to understand the differences between tiers

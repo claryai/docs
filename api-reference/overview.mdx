@@ -1,0 +1,94 @@
+---
+title: "API Overview"
+description: "Overview of the Clary AI API"
+---
+
+# Clary AI API Overview
+
+The Clary AI API allows you to programmatically interact with the Clary AI platform, enabling you to process documents, manage workflows, and retrieve analysis results.
+
+## Base URL
+
+All API requests should be made to the base URL of your Clary AI instance:
+
+```
+http://your-clary-instance:8080/api/v1
+```
+
+If you're using the Docker container with default settings, this would be:
+
+```
+http://localhost:8080/api/v1
+```
+
+## Available Endpoints
+
+Clary AI provides the following main API endpoints:
+
+| Endpoint | Description |
+| --- | --- |
+| `/documents` | Upload, process, and retrieve documents |
+| `/workflows` | Create and manage document processing workflows |
+| `/analysis` | Access document analysis results |
+
+## Response Format
+
+All API responses are returned in JSON format. A typical response structure looks like:
+
+```json
+{
+  "status": "success",
+  "data": {
+    // Response data here
+  }
+}
+```
+
+For error responses:
+
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "error_code",
+    "message": "Error message"
+  }
+}
+```
+
+## Pagination
+
+For endpoints that return multiple items, pagination is supported using the following query parameters:
+
+- `page`: Page number (starting from 1)
+- `limit`: Number of items per page (default: 20, max: 100)
+
+Example:
+
+```
+GET /api/v1/documents?page=2&limit=50
+```
+
+## API Availability by Tier
+
+<Tabs>
+  <Tab title="Lite">
+    - Basic document processing endpoints
+    - Limited to 100 requests per minute
+    - No advanced analysis endpoints
+  </Tab>
+  <Tab title="Standard">
+    - All Lite endpoints
+    - Advanced document analysis
+    - Workflow management
+    - 500 requests per minute
+  </Tab>
+  <Tab title="Professional">
+    - All Standard endpoints
+    - Custom model integration
+    - Advanced workflow orchestration
+    - 2000 requests per minute
+  </Tab>
+</Tabs>
+
+For detailed information about specific endpoints, please refer to the corresponding sections in the API reference.

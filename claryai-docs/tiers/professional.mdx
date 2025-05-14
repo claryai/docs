@@ -1,0 +1,346 @@
+---
+title: "Professional Tier"
+description: "Details of the Clary AI Professional tier"
+---
+
+# Clary AI Professional Tier
+
+The Clary AI Professional tier provides enterprise-level document processing capabilities with cloud LLM connections. It's designed for organizations with complex document processing needs that require the most advanced AI capabilities.
+
+## Overview
+
+<Card title="Professional Tier" icon="crown" iconType="duotone">
+  **$999/month**
+  
+  - 20,000 pages/month
+  - Enterprise document processing
+  - Cloud LLM connections
+  - Priority support
+  
+  [Get Started](/getting-started/quickstart)
+</Card>
+
+## Key Features
+
+### Document Processing
+
+The Professional tier includes enterprise-level document processing capabilities:
+
+- **Supported File Formats**: All formats, including PDF, Office documents, images, HTML, email formats, and archives
+- **Maximum File Size**: 200MB per document
+- **OCR Capabilities**: Premium OCR with advanced layout preservation, table detection, and form field recognition
+- **Processing Speed**: Highest priority processing queue with parallel processing
+
+### AI Integration
+
+The Professional tier includes cloud LLM connections:
+
+- **Cloud LLM Providers**: OpenAI (GPT-4), Anthropic (Claude), Google (Gemini)
+- **Advanced Reasoning**: Complex document understanding and analysis
+- **Custom Model Integration**: Full support for integrating your own models
+- **Model Selection**: Configure which model to use for different document types
+- **Cost Management**: Caching, rate limiting, and usage analytics
+
+### API Access
+
+The Professional tier provides premium API access:
+
+- **Rate Limits**: 2000 requests per minute
+- **API Keys**: Unlimited API keys with fine-grained permission control
+- **Endpoints**: All endpoints, including advanced analysis and custom model integration
+- **Webhooks**: Advanced webhook configurations with retry logic
+- **IP Restrictions**: Restrict API access by IP address
+
+### Workflows
+
+The Professional tier includes enterprise workflow capabilities:
+
+- **Workflow Templates**: Unlimited workflow templates
+- **Custom Workflows**: Advanced custom workflow creation
+- **Workflow Complexity**: Complex workflows with parallel processing and advanced branching
+- **Processors per Workflow**: Unlimited processors per workflow
+- **Error Handling**: Sophisticated error handling, retries, and fallback options
+- **Versioning**: Workflow versioning and rollback
+
+### Support
+
+The Professional tier includes priority support:
+
+- **Priority Support**: Dedicated support team with 4-hour response time
+- **Phone Support**: Available during business hours
+- **Community Forum**: VIP access to the Clary AI community forum
+- **Documentation**: Comprehensive documentation with enterprise examples
+- **SLA**: 99.9% uptime guarantee with financial penalties
+- **Onboarding**: Personalized onboarding and training
+
+## Cloud LLM Integration
+
+The Professional tier includes connections to leading cloud LLM providers:
+
+<Tabs>
+  <Tab title="OpenAI GPT-4">
+    GPT-4 provides state-of-the-art language understanding and generation:
+    
+    ```json
+    {
+      "provider": "openai",
+      "model": "gpt-4",
+      "query": "Summarize the key points of this contract",
+      "document_id": "doc_1a2b3c4d5e6f",
+      "max_tokens": 1000
+    }
+    ```
+  </Tab>
+  <Tab title="Anthropic Claude">
+    Claude excels at understanding complex documents and nuanced instructions:
+    
+    ```json
+    {
+      "provider": "anthropic",
+      "model": "claude-3-opus",
+      "query": "Identify potential risks in this legal agreement",
+      "document_id": "doc_1a2b3c4d5e6f",
+      "max_tokens": 1000
+    }
+    ```
+  </Tab>
+  <Tab title="Google Gemini">
+    Gemini provides powerful multimodal understanding:
+    
+    ```json
+    {
+      "provider": "google",
+      "model": "gemini-pro",
+      "query": "Analyze the trends shown in these financial statements",
+      "document_id": "doc_1a2b3c4d5e6f",
+      "max_tokens": 1000
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Advanced Workflow Capabilities
+
+The Professional tier includes advanced workflow capabilities:
+
+<CodeGroup>
+```json Parallel Processing
+{
+  "name": "Invoice Processing with Parallel Steps",
+  "processors": [
+    {
+      "id": "document-classifier",
+      "type": "document-classification"
+    },
+    {
+      "id": "text-extractor",
+      "type": "text-extraction"
+    },
+    {
+      "id": "parallel-processing",
+      "type": "parallel",
+      "processors": [
+        {
+          "id": "entity-extraction",
+          "type": "entity-extraction"
+        },
+        {
+          "id": "table-extraction",
+          "type": "table-extraction"
+        },
+        {
+          "id": "image-analysis",
+          "type": "image-analysis"
+        }
+      ]
+    },
+    {
+      "id": "data-validation",
+      "type": "data-validation"
+    },
+    {
+      "id": "erp-integration",
+      "type": "integration",
+      "config": {
+        "type": "erp",
+        "system": "sap"
+      }
+    }
+  ]
+}
+```
+
+```json Advanced Branching
+{
+  "name": "Complex Document Routing",
+  "processors": [
+    {
+      "id": "document-classifier",
+      "type": "document-classification"
+    },
+    {
+      "id": "routing-decision",
+      "type": "switch",
+      "field": "$.classification.type",
+      "cases": {
+        "invoice": "invoice-processor",
+        "contract": "contract-processor",
+        "resume": "resume-processor",
+        "default": "general-processor"
+      }
+    },
+    {
+      "id": "invoice-processor",
+      "type": "invoice-extraction"
+    },
+    {
+      "id": "contract-processor",
+      "type": "contract-analysis"
+    },
+    {
+      "id": "resume-processor",
+      "type": "resume-parsing"
+    },
+    {
+      "id": "general-processor",
+      "type": "text-extraction"
+    }
+  ]
+}
+```
+
+```json Error Handling
+{
+  "name": "Robust Processing with Error Handling",
+  "processors": [
+    {
+      "id": "document-processor",
+      "type": "document-processing",
+      "error_handling": {
+        "retry": {
+          "max_attempts": 3,
+          "delay": 5000
+        },
+        "fallback": "basic-processor",
+        "on_error": "log-and-continue"
+      }
+    },
+    {
+      "id": "basic-processor",
+      "type": "basic-extraction"
+    },
+    {
+      "id": "notification",
+      "type": "notification",
+      "config": {
+        "channels": ["email", "slack"],
+        "recipients": ["admin@example.com"]
+      }
+    }
+  ]
+}
+```
+</CodeGroup>
+
+## Enterprise Integrations
+
+The Professional tier includes enterprise integrations:
+
+<CardGroup cols={2}>
+  <Card title="ERP Systems" icon="building">
+    Integrate with SAP, Oracle, Microsoft Dynamics, and other ERP systems.
+  </Card>
+  <Card title="CRM Systems" icon="users">
+    Connect with Salesforce, HubSpot, Microsoft Dynamics, and other CRM platforms.
+  </Card>
+  <Card title="Document Management" icon="folder-open">
+    Integrate with SharePoint, Box, Dropbox, Google Drive, and other DMS platforms.
+  </Card>
+  <Card title="Databases" icon="database">
+    Connect directly with SQL and NoSQL databases for data storage and retrieval.
+  </Card>
+</CardGroup>
+
+## Example: Advanced Document Processing
+
+Here's an example of advanced document processing in the Professional tier:
+
+<Steps>
+  <Step title="Upload Document with Custom Workflow">
+    ```bash
+    curl -X POST \
+      https://your-clary-instance:8080/api/v1/documents \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -F "file=@/path/to/complex-document.pdf" \
+      -F "workflow_id=custom-workflow-123" \
+      -F 'options={"cloud_llm": {"provider": "openai", "model": "gpt-4"}}'
+    ```
+  </Step>
+  <Step title="Monitor Processing Status">
+    ```bash
+    curl -X GET \
+      https://your-clary-instance:8080/api/v1/documents/DOCUMENT_ID/status \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Step>
+  <Step title="Retrieve Comprehensive Analysis">
+    ```bash
+    curl -X GET \
+      https://your-clary-instance:8080/api/v1/documents/DOCUMENT_ID/analysis \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Step>
+  <Step title="Perform Complex Query">
+    ```bash
+    curl -X POST \
+      https://your-clary-instance:8080/api/v1/documents/DOCUMENT_ID/query \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "query": "Compare the financial projections in this report with the actual results from last quarter and identify significant discrepancies",
+        "llm": {
+          "provider": "anthropic",
+          "model": "claude-3-opus"
+        }
+      }'
+    ```
+  </Step>
+  <Step title="Trigger Integration">
+    ```bash
+    curl -X POST \
+      https://your-clary-instance:8080/api/v1/documents/DOCUMENT_ID/integrate \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "integration": "erp",
+        "system": "sap",
+        "action": "create_invoice"
+      }'
+    ```
+  </Step>
+</Steps>
+
+## Frequently Asked Questions
+
+<Accordion title="Can I customize which cloud LLM provider to use?">
+  Yes, you can specify which cloud LLM provider to use for each document or query. You can also configure default providers for different document types and set up fallback options.
+</Accordion>
+
+<Accordion title="How are cloud LLM costs handled?">
+  The Professional tier includes a monthly allocation of cloud LLM usage. You can monitor your usage through the dashboard and set up alerts for usage thresholds. Additional usage is billed separately based on the provider's pricing.
+</Accordion>
+
+<Accordion title="Can I deploy the Professional tier in an air-gapped environment?">
+  Yes, the Professional tier can be deployed in air-gapped environments. In this configuration, cloud LLM features will not be available, but you can still use local models and custom integrations.
+</Accordion>
+
+<Accordion title="Is there a limit to the number of custom workflows I can create?">
+  No, the Professional tier allows you to create unlimited custom workflows with unlimited processors per workflow.
+</Accordion>
+
+## Next Steps
+
+- [Get started](/getting-started/quickstart) with Clary AI Professional
+- [Explore the API](/api-reference/overview) to learn how to integrate Clary AI into your applications
+- [Learn about workflows](/concepts/workflow-engine) to automate your document processing
+- [Contact sales](mailto:sales@claryai.com) for a personalized demo and consultation

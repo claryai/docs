@@ -1,0 +1,142 @@
+---
+title: "Lite Tier"
+description: "Details of the Clary AI Lite tier"
+---
+
+# Clary AI Lite Tier
+
+The Clary AI Lite tier provides essential document processing capabilities at an affordable price point. It's designed for users who need basic document extraction without pre-integrated AI models.
+
+## Overview
+
+<Card title="Lite Tier" icon="feather" iconType="duotone">
+  **$99/month**
+  
+  - 1,000 pages/month
+  - Basic document processing
+  - Community support
+  
+  [Get Started](/getting-started/quickstart)
+</Card>
+
+## Key Features
+
+### Document Processing
+
+The Lite tier includes basic document processing capabilities:
+
+- **Supported File Formats**: PDF, DOCX, TXT
+- **Maximum File Size**: 10MB per document
+- **OCR Capabilities**: Basic OCR for text extraction from images and scanned documents
+- **Processing Speed**: Standard processing queue
+
+### API Access
+
+The Lite tier provides basic API access:
+
+- **Rate Limits**: 100 requests per minute
+- **API Keys**: Up to 5 active API keys
+- **Endpoints**: Core document processing endpoints
+
+### Workflows
+
+The Lite tier includes basic workflow capabilities:
+
+- **Workflow Templates**: 5 pre-built workflow templates
+- **Custom Workflows**: Limited custom workflow creation
+- **Workflow Complexity**: Sequential workflows only (no branching)
+- **Processors per Workflow**: Up to 5 processors per workflow
+
+### Support
+
+The Lite tier includes community support:
+
+- **Community Forum**: Access to the Clary AI community forum
+- **Documentation**: Comprehensive documentation
+- **SLA**: No service level agreement
+
+## Use Cases
+
+The Lite tier is ideal for:
+
+<CardGroup cols={2}>
+  <Card title="Small Law Firms" icon="scale-balanced">
+    Extract text from contracts and legal documents for easier searching and organization.
+  </Card>
+  <Card title="Independent Researchers" icon="microscope">
+    Process research papers and extract structured data for analysis.
+  </Card>
+  <Card title="Small Businesses" icon="building">
+    Digitize and organize business documents like invoices and receipts.
+  </Card>
+  <Card title="Developers" icon="code">
+    Integrate basic document processing into applications with a simple API.
+  </Card>
+</CardGroup>
+
+## Example: Processing a Document
+
+Here's an example of processing a document with the Lite tier:
+
+<Steps>
+  <Step title="Upload Document">
+    ```bash
+    curl -X POST \
+      https://your-clary-instance:8080/api/v1/documents \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -F "file=@/path/to/document.pdf"
+    ```
+  </Step>
+  <Step title="Check Processing Status">
+    ```bash
+    curl -X GET \
+      https://your-clary-instance:8080/api/v1/documents/DOCUMENT_ID \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Step>
+  <Step title="Retrieve Extracted Text">
+    ```bash
+    curl -X GET \
+      https://your-clary-instance:8080/api/v1/documents/DOCUMENT_ID/text \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Step>
+</Steps>
+
+## Limitations
+
+The Lite tier has the following limitations:
+
+1. **No Pre-integrated AI Models**: The Lite tier does not include pre-integrated AI models. You can integrate your own AI models through the API if needed.
+
+2. **Limited File Formats**: Only PDF, DOCX, and TXT files are supported.
+
+3. **File Size Limit**: Maximum file size is 10MB per document.
+
+4. **Basic OCR**: OCR capabilities are basic and may not handle complex layouts or low-quality scans well.
+
+5. **Limited Workflow Capabilities**: Only sequential workflows with up to 5 processors are supported.
+
+## Frequently Asked Questions
+
+<Accordion title="Can I upgrade from Lite to Standard or Professional later?">
+  Yes, you can upgrade to a higher tier at any time. Your existing documents and workflows will be preserved, and you'll gain access to additional features immediately. Billing will be prorated for the remainder of your billing cycle.
+</Accordion>
+
+<Accordion title="Can I integrate my own AI models with the Lite tier?">
+  Yes, while the Lite tier doesn't include pre-integrated AI models, you can integrate your own AI models through the API. This gives you flexibility to use the AI models that best suit your needs.
+</Accordion>
+
+<Accordion title="What happens if I exceed my monthly page limit?">
+  If you exceed your monthly page limit of 1,000 pages, additional pages will be billed at $0.10 per page. You can also upgrade to a higher tier if you consistently need more pages.
+</Accordion>
+
+<Accordion title="Is there a free trial available?">
+  Yes, we offer a 14-day free trial of the Lite tier with a limit of 100 pages. No credit card is required for the trial.
+</Accordion>
+
+## Next Steps
+
+- [Get started](/getting-started/quickstart) with Clary AI Lite
+- [Compare tiers](/tiers/overview) to see if Standard or Professional might better suit your needs
+- [Explore the API](/api-reference/overview) to learn how to integrate Clary AI into your applications

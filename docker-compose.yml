@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ./web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    volumes:
+      - ./data:/app/data
+    environment:
+      - API_URL=http://api:8000
+      - NODE_ENV=development
+      - PROJECT_NAME=Clary AI Professional
+      - TIER=professional
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - MODEL_PATH=/app/models
+      - DATABASE_URL=postgresql://claryai:claryai@db:5432/claryai
+      - DEBUG=true
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - PROJECT_NAME=Clary AI Professional
+      - API_KEY_SALT=claryai
+      - LICENSE_VALIDATION_ENABLED=true
+      - LICENSE_SERVER_URL=https://api.claryai.com/license
+      - CONTAINER_ID=${CONTAINER_ID:-dev_container}
+      - CLARY_TIER=professional
+      - FEATURE_FLAG_ADVANCED_EXTRACTION=true
+      - FEATURE_FLAG_TABLE_EXTRACTION=true
+      - FEATURE_FLAG_CUSTOM_TEMPLATES=true
+      - FEATURE_FLAG_CLOUD_LLM=true
+      - FEATURE_FLAG_ADVANCED_ANALYTICS=true
+      - LLM_MODEL=cloud
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - COHERE_API_KEY=${COHERE_API_KEY:-}
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=claryai
+      - POSTGRES_PASSWORD=claryai
+      - POSTGRES_DB=claryai
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  license-server:
+    build: ./license-server
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://claryai:claryai@db:5432/claryai
+      - DEBUG=true
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - JWT_SECRET=${JWT_SECRET:-dev_secret}
+      - TIER=professional
+    restart: unless-stopped
+
+  analytics:
+    build: ./analytics
+    ports:
+      - "8002:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://claryai:claryai@db:5432/claryai
+      - DEBUG=true
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - JWT_SECRET=${JWT_SECRET:-dev_secret}
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

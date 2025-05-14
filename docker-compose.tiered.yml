@@ -1,0 +1,152 @@
+version: '3'
+services:
+  # Shared services
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=claryai
+      - POSTGRES_PASSWORD=claryai
+      - POSTGRES_DB=claryai
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  license-server:
+    build: ./license-server
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://claryai:claryai@db:5432/claryai
+      - DEBUG=true
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - JWT_SECRET=${JWT_SECRET:-dev_secret}
+    restart: unless-stopped
+
+  # Lite tier
+  web-lite:
+    build: ./web
+    ports:
+      - "3001:3000"
+    depends_on:
+      - api-lite
+    volumes:
+      - ./data:/app/data
+    environment:
+      - API_URL=http://api-lite:8000
+      - NODE_ENV=development
+      - PROJECT_NAME=Clary AI Lite
+    restart: unless-stopped
+
+  api-lite:
+    build:
+      context: ./api
+      dockerfile: ../Dockerfile.lite
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - MODEL_PATH=/app/models
+      - DATABASE_URL=postgresql://claryai:claryai@db:5432/claryai
+      - DEBUG=true
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - PROJECT_NAME=Clary AI Lite
+      - API_KEY_SALT=claryai
+      - LICENSE_VALIDATION_ENABLED=true
+      - LICENSE_SERVER_URL=https://api.claryai.com/license
+      - CONTAINER_ID=${CONTAINER_ID:-lite_container}
+      - TIER=lite
+    restart: unless-stopped
+
+  # Standard tier
+  web-standard:
+    build: ./web
+    ports:
+      - "3002:3000"
+    depends_on:
+      - api-standard
+    volumes:
+      - ./data:/app/data
+    environment:
+      - API_URL=http://api-standard:8000
+      - NODE_ENV=development
+      - PROJECT_NAME=Clary AI Standard
+    restart: unless-stopped
+
+  api-standard:
+    build:
+      context: ./api
+      dockerfile: ../Dockerfile.standard
+    ports:
+      - "8002:8000"
+    depends_on:
+      - db
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - MODEL_PATH=/app/models
+      - DATABASE_URL=postgresql://claryai:claryai@db:5432/claryai
+      - DEBUG=true
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - PROJECT_NAME=Clary AI Standard
+      - API_KEY_SALT=claryai
+      - LICENSE_VALIDATION_ENABLED=true
+      - LICENSE_SERVER_URL=https://api.claryai.com/license
+      - CONTAINER_ID=${CONTAINER_ID:-standard_container}
+      - TIER=standard
+      - LLM_MODEL=phi-4-multimodal
+    restart: unless-stopped
+
+  # Professional tier
+  web-professional:
+    build: ./web
+    ports:
+      - "3003:3000"
+    depends_on:
+      - api-professional
+    volumes:
+      - ./data:/app/data
+    environment:
+      - API_URL=http://api-professional:8000
+      - NODE_ENV=development
+      - PROJECT_NAME=Clary AI Professional
+    restart: unless-stopped
+
+  api-professional:
+    build:
+      context: ./api
+      dockerfile: ../Dockerfile.professional
+    ports:
+      - "8003:8000"
+    depends_on:
+      - db
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - MODEL_PATH=/app/models
+      - DATABASE_URL=postgresql://claryai:claryai@db:5432/claryai
+      - DEBUG=true
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - PROJECT_NAME=Clary AI Professional
+      - API_KEY_SALT=claryai
+      - LICENSE_VALIDATION_ENABLED=true
+      - LICENSE_SERVER_URL=https://api.claryai.com/license
+      - CONTAINER_ID=${CONTAINER_ID:-professional_container}
+      - TIER=professional
+      - LLM_MODEL=llama-3-8b
+      - CLOUD_LLM_SUPPORT=true
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

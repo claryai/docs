@@ -1,0 +1,243 @@
+---
+title: "Authentication"
+description: "Learn how to authenticate with the Clary AI API"
+---
+
+# Authentication
+
+All API requests to Clary AI require authentication. This ensures that only authorized users can access your documents and data.
+
+## API Keys
+
+Clary AI uses API keys for authentication. You can generate API keys from the Clary AI web interface under Settings > API Keys.
+
+Each API key has the following properties:
+- A unique identifier
+- A secret key (shown only once when created)
+- Permissions (read, write, admin)
+- An optional expiration date
+
+## Using API Keys
+
+To authenticate your API requests, include your API key in the `Authorization` header using the Bearer token format:
+
+<CodeGroup>
+```bash cURL
+curl -X GET \
+  https://your-clary-instance:8080/api/v1/documents \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```python Python
+import requests
+
+url = "https://your-clary-instance:8080/api/v1/documents"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY"
+}
+
+response = requests.get(url, headers=headers)
+print(response.json())
+```
+
+```javascript JavaScript
+const axios = require('axios');
+
+axios.get('https://your-clary-instance:8080/api/v1/documents', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY'
+  }
+})
+.then(response => {
+  console.log(response.data);
+})
+.catch(error => {
+  console.error(error);
+});
+```
+</CodeGroup>
+
+<Warning>
+  Keep your API keys secure! Do not share them in public repositories or client-side code.
+</Warning>
+
+## API Key Permissions
+
+API keys can have different permission levels:
+
+| Permission | Description |
+| --- | --- |
+| Read | Can only retrieve data, cannot modify anything |
+| Write | Can create and modify resources, but cannot manage users or API keys |
+| Admin | Full access to all API endpoints |
+
+## API Key Management
+
+### Creating API Keys
+
+<CodeGroup>
+```bash cURL
+curl -X POST \
+  https://your-clary-instance:8080/api/v1/api-keys \
+  -H "Authorization: Bearer ADMIN_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "My Application Key",
+    "permissions": ["read", "write"],
+    "expires_at": "2025-12-31T23:59:59Z"
+  }'
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    "https://your-clary-instance:8080/api/v1/api-keys",
+    headers={
+        "Authorization": "Bearer ADMIN_API_KEY",
+        "Content-Type": "application/json"
+    },
+    json={
+        "name": "My Application Key",
+        "permissions": ["read", "write"],
+        "expires_at": "2025-12-31T23:59:59Z"
+    }
+)
+
+print(response.json())
+```
+
+```javascript JavaScript
+const axios = require('axios');
+
+axios.post('https://your-clary-instance:8080/api/v1/api-keys', {
+  name: 'My Application Key',
+  permissions: ['read', 'write'],
+  expires_at: '2025-12-31T23:59:59Z'
+}, {
+  headers: {
+    'Authorization': 'Bearer ADMIN_API_KEY',
+    'Content-Type': 'application/json'
+  }
+})
+.then(response => {
+  console.log(response.data);
+})
+.catch(error => {
+  console.error(error);
+});
+```
+</CodeGroup>
+
+### Listing API Keys
+
+<CodeGroup>
+```bash cURL
+curl -X GET \
+  https://your-clary-instance:8080/api/v1/api-keys \
+  -H "Authorization: Bearer ADMIN_API_KEY"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    "https://your-clary-instance:8080/api/v1/api-keys",
+    headers={
+        "Authorization": "Bearer ADMIN_API_KEY"
+    }
+)
+
+print(response.json())
+```
+
+```javascript JavaScript
+const axios = require('axios');
+
+axios.get('https://your-clary-instance:8080/api/v1/api-keys', {
+  headers: {
+    'Authorization': 'Bearer ADMIN_API_KEY'
+  }
+})
+.then(response => {
+  console.log(response.data);
+})
+.catch(error => {
+  console.error(error);
+});
+```
+</CodeGroup>
+
+### Revoking API Keys
+
+To revoke an API key, make a DELETE request:
+
+<CodeGroup>
+```bash cURL
+curl -X DELETE \
+  https://your-clary-instance:8080/api/v1/api-keys/KEY_ID \
+  -H "Authorization: Bearer ADMIN_API_KEY"
+```
+
+```python Python
+import requests
+
+response = requests.delete(
+    "https://your-clary-instance:8080/api/v1/api-keys/KEY_ID",
+    headers={
+        "Authorization": "Bearer ADMIN_API_KEY"
+    }
+)
+
+print(response.json())
+```
+
+```javascript JavaScript
+const axios = require('axios');
+
+axios.delete('https://your-clary-instance:8080/api/v1/api-keys/KEY_ID', {
+  headers: {
+    'Authorization': 'Bearer ADMIN_API_KEY'
+  }
+})
+.then(response => {
+  console.log(response.data);
+})
+.catch(error => {
+  console.error(error);
+});
+```
+</CodeGroup>
+
+## Tier-Specific Authentication Features
+
+<Tabs>
+  <Tab title="Lite">
+    - Basic API key management
+    - Up to 5 active API keys
+  </Tab>
+  <Tab title="Standard">
+    - All Lite features
+    - Up to 20 active API keys
+    - Key expiration management
+  </Tab>
+  <Tab title="Professional">
+    - All Standard features
+    - Unlimited API keys
+    - Fine-grained permission control
+    - IP address restrictions
+    - Usage analytics
+  </Tab>
+</Tabs>
+
+## Best Practices
+
+1. **Use different API keys for different applications**: This allows you to revoke access for a specific application without affecting others.
+
+2. **Set appropriate permissions**: Only grant the permissions that are necessary for each application.
+
+3. **Rotate API keys regularly**: Create new API keys and deprecate old ones to minimize the risk of unauthorized access.
+
+4. **Set expiration dates**: For temporary access, set an expiration date on the API key.
+
+5. **Monitor API key usage**: Keep track of which API keys are being used and for what purposes.

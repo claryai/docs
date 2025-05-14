@@ -1,0 +1,11 @@
+{
+  "name": "Clary AI Documentation",
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "test2"
+      ]
+    }
+  ]
+}

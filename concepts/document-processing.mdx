@@ -1,0 +1,168 @@
+---
+title: "Document Processing"
+description: "Understanding Clary AI's document processing capabilities"
+---
+
+# Document Processing
+
+Clary AI provides powerful document processing capabilities that allow you to extract structured information from unstructured documents. This page explains how document processing works in Clary AI and how to get the most out of it.
+
+## Document Processing Pipeline
+
+When you upload a document to Clary AI, it goes through a multi-stage processing pipeline:
+
+<Steps>
+  <Step title="Document Upload">
+    The document is uploaded to the Clary AI platform and stored securely.
+  </Step>
+  <Step title="Document Parsing">
+    The document is parsed based on its format (PDF, DOCX, etc.) to extract its structure.
+  </Step>
+  <Step title="Text Extraction">
+    Text is extracted from the document, preserving formatting and layout where possible.
+  </Step>
+  <Step title="Table Extraction">
+    Tables are identified and extracted as structured data.
+  </Step>
+  <Step title="Image Extraction">
+    Images are extracted and processed (if enabled).
+  </Step>
+  <Step title="OCR Processing">
+    For scanned documents or images, Optical Character Recognition (OCR) is applied to extract text.
+  </Step>
+  <Step title="AI Analysis">
+    Depending on your tier, AI models analyze the document content for deeper insights.
+  </Step>
+  <Step title="Result Generation">
+    The processed results are compiled and made available through the API.
+  </Step>
+</Steps>
+
+## Supported Document Formats
+
+Clary AI supports a wide range of document formats, with varying levels of support depending on your tier:
+
+<Tabs>
+  <Tab title="Lite">
+    - PDF (.pdf)
+    - Microsoft Word (.docx, .doc)
+    - Plain Text (.txt)
+  </Tab>
+  <Tab title="Standard">
+    - All Lite formats
+    - Microsoft Excel (.xlsx, .xls)
+    - Microsoft PowerPoint (.pptx, .ppt)
+    - Images (.jpg, .png, .tiff)
+    - HTML (.html, .htm)
+  </Tab>
+  <Tab title="Professional">
+    - All Standard formats
+    - Rich Text Format (.rtf)
+    - OpenDocument formats (.odt, .ods, .odp)
+    - Email formats (.eml, .msg)
+    - Archive formats (.zip) containing supported documents
+    - And more
+  </Tab>
+</Tabs>
+
+## Text Extraction
+
+Clary AI extracts text from documents while preserving as much of the original formatting and layout as possible. This includes:
+
+- Paragraphs and line breaks
+- Headers and footers
+- Lists and bullet points
+- Font styles (bold, italic, etc.)
+- Text in tables and columns
+
+For scanned documents or images, OCR is used to extract text. The quality of OCR results depends on the quality of the original document.
+
+## Table Extraction
+
+Clary AI can identify and extract tables from documents, converting them into structured data that can be easily processed. Table extraction works on:
+
+- Native tables in documents (e.g., Word tables, Excel spreadsheets)
+- Tables in PDF documents
+- Tables in images (using OCR and table detection)
+
+Extracted tables include:
+- Row and column structure
+- Header information
+- Cell data with appropriate data types (text, numbers, dates)
+
+## Image Extraction
+
+When enabled, Clary AI can extract images from documents, including:
+
+- Embedded images
+- Charts and graphs
+- Diagrams
+- Photographs
+
+Extracted images can be further processed using AI models for:
+- Image classification
+- Object detection
+- Text extraction (OCR)
+- Chart data extraction
+
+## OCR Processing
+
+Optical Character Recognition (OCR) is used to extract text from scanned documents, images, and PDFs without embedded text. Clary AI's OCR capabilities include:
+
+- Support for multiple languages
+- Layout preservation
+- Table detection
+- Form field recognition
+
+The quality of OCR results depends on several factors:
+- Image resolution and quality
+- Document layout complexity
+- Text clarity and font
+- Language and character set
+
+## AI Analysis
+
+Depending on your tier, Clary AI can apply AI models to analyze document content:
+
+<Tabs>
+  <Tab title="Lite">
+    - Basic metadata extraction
+    - Document type classification
+  </Tab>
+  <Tab title="Standard">
+    - All Lite capabilities
+    - Named entity recognition (people, organizations, locations)
+    - Key-value pair extraction
+    - Document summarization
+    - Phi-4 Multimodal integration for image understanding
+  </Tab>
+  <Tab title="Professional">
+    - All Standard capabilities
+    - Custom entity extraction
+    - Document comparison
+    - Advanced document understanding
+    - Cloud LLM integration for complex analysis
+  </Tab>
+</Tabs>
+
+## Best Practices
+
+To get the best results from Clary AI's document processing:
+
+1. **Use high-quality documents**: Higher resolution scans and native digital documents yield better results.
+
+2. **Choose the right format**: When possible, use native formats (DOCX, XLSX) rather than PDFs or images.
+
+3. **Configure processing options**: Specify which extraction features you need (text, tables, images) to optimize processing.
+
+4. **Use workflows**: For complex processing needs, create workflows to automate multi-step processing.
+
+5. **Check processing status**: Large or complex documents may take longer to process. Use the status endpoint to check progress.
+
+6. **Consider document structure**: Documents with clear structure and formatting will yield better extraction results.
+
+## Next Steps
+
+- Learn how to [upload and process documents](/api-docs/endpoints/documents)
+- Explore [workflow automation](/concepts/workflow-engine) for complex document processing
+- Understand how [AI models](/concepts/ai-models) enhance document analysis

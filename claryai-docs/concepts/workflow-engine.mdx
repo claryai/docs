@@ -1,0 +1,331 @@
+---
+title: "Workflow Engine"
+description: "Automate document processing with Clary AI's workflow engine"
+---
+
+# Workflow Engine
+
+Clary AI's Workflow Engine allows you to automate complex document processing tasks by creating custom workflows. This page explains how the Workflow Engine works and how to use it effectively.
+
+## What is a Workflow?
+
+A workflow in Clary AI is a sequence of processing steps that are applied to documents. Workflows can include:
+
+- Document processing operations (text extraction, table extraction, etc.)
+- Conditional logic based on document content or metadata
+- Data transformation and enrichment
+- Integration with external systems
+- Notifications and alerts
+
+Workflows are defined using a simple JSON format and can be created and managed through the Clary AI API or web interface.
+
+## Workflow Components
+
+### Processors
+
+Processors are the building blocks of workflows. Each processor performs a specific operation on a document:
+
+<CodeGroup>
+```json Text Extraction
+{
+  "id": "text-extractor",
+  "type": "text-extraction",
+  "config": {
+    "include_formatting": true,
+    "languages": ["en", "fr", "de"]
+  }
+}
+```
+
+```json Table Extraction
+{
+  "id": "table-extractor",
+  "type": "table-extraction",
+  "config": {
+    "detect_headers": true,
+    "max_tables": 10
+  }
+}
+```
+
+```json Entity Recognition
+{
+  "id": "entity-recognizer",
+  "type": "entity-recognition",
+  "config": {
+    "entities": ["person", "organization", "location", "date"],
+    "confidence_threshold": 0.7
+  }
+}
+```
+</CodeGroup>
+
+### Conditions
+
+Conditions allow you to create branching logic in your workflows:
+
+```json
+{
+  "id": "document-type-condition",
+  "type": "condition",
+  "config": {
+    "condition": "$.metadata.document_type == 'invoice'",
+    "if_true": "invoice-processor",
+    "if_false": "general-processor"
+  }
+}
+```
+
+### Transformers
+
+Transformers modify the data extracted from documents:
+
+```json
+{
+  "id": "date-transformer",
+  "type": "transformer",
+  "config": {
+    "field": "$.metadata.date",
+    "transformation": "ISO8601",
+    "output_field": "$.metadata.iso_date"
+  }
+}
+```
+
+### Integrations
+
+Integrations allow workflows to connect with external systems:
+
+```json
+{
+  "id": "crm-integration",
+  "type": "integration",
+  "config": {
+    "type": "webhook",
+    "url": "https://your-crm.example.com/api/documents",
+    "method": "POST",
+    "headers": {
+      "Authorization": "Bearer {{env.CRM_API_KEY}}"
+    }
+  }
+}
+```
+
+## Creating a Workflow
+
+To create a workflow, you define a sequence of processors and their connections:
+
+<CodeGroup>
+```json Simple Workflow
+{
+  "name": "Basic Document Processing",
+  "description": "Extract text and tables from documents",
+  "processors": [
+    {
+      "id": "text-extractor",
+      "type": "text-extraction",
+      "config": {
+        "include_formatting": true
+      }
+    },
+    {
+      "id": "table-extractor",
+      "type": "table-extraction",
+      "config": {
+        "detect_headers": true
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "start",
+      "to": "text-extractor"
+    },
+    {
+      "from": "text-extractor",
+      "to": "table-extractor"
+    },
+    {
+      "from": "table-extractor",
+      "to": "end"
+    }
+  ]
+}
+```
+
+```json Complex Workflow
+{
+  "name": "Invoice Processing",
+  "description": "Process invoices and extract key information",
+  "processors": [
+    {
+      "id": "document-classifier",
+      "type": "document-classification",
+      "config": {
+        "types": ["invoice", "receipt", "other"]
+      }
+    },
+    {
+      "id": "invoice-condition",
+      "type": "condition",
+      "config": {
+        "condition": "$.classification.type == 'invoice'",
+        "if_true": "invoice-extractor",
+        "if_false": "general-extractor"
+      }
+    },
+    {
+      "id": "invoice-extractor",
+      "type": "invoice-extraction",
+      "config": {
+        "extract_fields": ["invoice_number", "date", "total", "vendor"]
+      }
+    },
+    {
+      "id": "general-extractor",
+      "type": "text-extraction",
+      "config": {
+        "include_formatting": true
+      }
+    },
+    {
+      "id": "data-validator",
+      "type": "data-validation",
+      "config": {
+        "rules": [
+          "$.invoice.total > 0",
+          "$.invoice.date is valid date"
+        ]
+      }
+    },
+    {
+      "id": "crm-integration",
+      "type": "integration",
+      "config": {
+        "type": "webhook",
+        "url": "https://your-crm.example.com/api/invoices",
+        "method": "POST"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "start",
+      "to": "document-classifier"
+    },
+    {
+      "from": "document-classifier",
+      "to": "invoice-condition"
+    },
+    {
+      "from": "invoice-condition",
+      "to": "invoice-extractor",
+      "condition": "true"
+    },
+    {
+      "from": "invoice-condition",
+      "to": "general-extractor",
+      "condition": "false"
+    },
+    {
+      "from": "invoice-extractor",
+      "to": "data-validator"
+    },
+    {
+      "from": "data-validator",
+      "to": "crm-integration"
+    },
+    {
+      "from": "crm-integration",
+      "to": "end"
+    },
+    {
+      "from": "general-extractor",
+      "to": "end"
+    }
+  ]
+}
+```
+</CodeGroup>
+
+## Workflow Templates
+
+Clary AI provides pre-built workflow templates for common document processing tasks:
+
+<CardGroup cols={2}>
+  <Card title="Invoice Processing" icon="file-invoice-dollar">
+    Extract key information from invoices, including invoice number, date, total amount, and line items.
+  </Card>
+  <Card title="Resume Parsing" icon="user-tie">
+    Extract candidate information from resumes, including contact details, education, work experience, and skills.
+  </Card>
+  <Card title="Contract Analysis" icon="file-contract">
+    Extract key clauses, parties, dates, and obligations from legal contracts.
+  </Card>
+  <Card title="Form Processing" icon="wpforms">
+    Extract field values from structured forms and convert them to structured data.
+  </Card>
+</CardGroup>
+
+## Workflow Execution
+
+When a document is processed using a workflow, Clary AI:
+
+1. Executes each processor in the defined sequence
+2. Evaluates conditions to determine the processing path
+3. Applies transformations to the extracted data
+4. Triggers integrations with external systems
+5. Returns the processed results
+
+You can monitor workflow execution through the Clary AI API or web interface, including:
+- Current status of each document
+- Processing time for each step
+- Errors or warnings that occurred during processing
+- Final results and outputs
+
+## Tier-Specific Features
+
+<Tabs>
+  <Tab title="Lite">
+    - Basic sequential workflows
+    - Up to 5 processors per workflow
+    - Limited to 5 workflow templates
+    - Basic error handling
+  </Tab>
+  <Tab title="Standard">
+    - All Lite features
+    - Conditional workflows with branching
+    - Up to 20 processors per workflow
+    - Custom workflow templates
+    - Advanced error handling and retries
+    - Basic integrations (webhooks, email)
+  </Tab>
+  <Tab title="Professional">
+    - All Standard features
+    - Complex workflows with parallel processing
+    - Unlimited processors per workflow
+    - Advanced integrations (CRM, ERP, databases)
+    - Custom processors and transformers
+    - Workflow versioning and rollback
+  </Tab>
+</Tabs>
+
+## Best Practices
+
+1. **Start simple**: Begin with basic workflows and add complexity as needed.
+
+2. **Test thoroughly**: Test your workflows with a variety of documents to ensure they handle different cases correctly.
+
+3. **Use conditions wisely**: Use conditions to create different processing paths for different document types or content.
+
+4. **Monitor performance**: Keep an eye on workflow execution times and optimize as needed.
+
+5. **Handle errors gracefully**: Configure error handling to ensure your workflows are resilient.
+
+6. **Document your workflows**: Add clear names and descriptions to your workflows and processors.
+
+## Next Steps
+
+- Learn how to [create and manage workflows](/api-reference/endpoints/workflows)
+- Explore [pre-built workflow templates](/api-reference/endpoints/workflows#templates)
+- Understand how [AI models](/concepts/ai-models) can enhance your workflows
