@@ -1,110 +1,33 @@
 ---
 title: "Authentication"
-description: "Learn how to authenticate with the Clary AI API"
+description: "Authenticating with the Clary AI API"
 ---
 
 # Authentication
 
-All API requests to Clary AI require authentication. This ensures that only authorized users can access your documents and data.
+All API requests to Clary AI require authentication using an API key.
 
-## API Keys
+## Obtaining an API Key
 
-Clary AI uses API keys for authentication. You can generate API keys from the Clary AI web interface under Settings > API Keys.
+API keys can be obtained from the Clary AI dashboard.
 
-Each API key has the following properties:
-- A unique identifier
-- A secret key (shown only once when created)
-- Permissions (read, write, admin)
-- An optional expiration date
+1. Log in to your Clary AI account
+2. Navigate to Settings > API Keys
+3. Click "Generate New API Key"
+4. Copy and securely store your API key
 
-## Using API Keys
+## Using Your API Key
 
-To authenticate your API requests, include your API key in the `Authorization` header using the Bearer token format:
+Include your API key in the `Authorization` header of all API requests:
 
 ```bash
-curl -X GET \
-  https://your-clary-instance:8080/api/v1/documents \
+curl -X GET https://api.claryai.com/v1/documents \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
-<Warning>
-  Keep your API keys secure! Do not share them in public repositories or client-side code.
-</Warning>
+## API Key Security
 
-## API Key Permissions
-
-API keys can have different permission levels:
-
-| Permission | Description |
-| --- | --- |
-| Read | Can only retrieve data, cannot modify anything |
-| Write | Can create and modify resources, but cannot manage users or API keys |
-| Admin | Full access to all API endpoints |
-
-## API Key Management
-
-### Creating API Keys
-
-<CodeGroup>
-```bash cURL
-curl -X POST \
-  https://your-clary-instance:8080/api/v1/api-keys \
-  -H "Authorization: Bearer ADMIN_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "My Application Key",
-    "permissions": ["read", "write"],
-    "expires_at": "2025-12-31T23:59:59Z"
-  }'
-```
-
-```python Python
-import requests
-
-response = requests.post(
-    "https://your-clary-instance:8080/api/v1/api-keys",
-    headers={
-        "Authorization": "Bearer ADMIN_API_KEY",
-        "Content-Type": "application/json"
-    },
-    json={
-        "name": "My Application Key",
-        "permissions": ["read", "write"],
-        "expires_at": "2025-12-31T23:59:59Z"
-    }
-)
-
-print(response.json())
-```
-</CodeGroup>
-
-### Revoking API Keys
-
-To revoke an API key, make a DELETE request:
-
-```bash
-curl -X DELETE \
-  https://your-clary-instance:8080/api/v1/api-keys/KEY_ID \
-  -H "Authorization: Bearer ADMIN_API_KEY"
-```
-
-## Tier-Specific Authentication Features
-
-<Tabs>
-  <Tab title="Lite">
-    - Basic API key management
-    - Up to 5 active API keys
-  </Tab>
-  <Tab title="Standard">
-    - All Lite features
-    - Up to 20 active API keys
-    - Key expiration management
-  </Tab>
-  <Tab title="Professional">
-    - All Standard features
-    - Unlimited API keys
-    - Fine-grained permission control
-    - IP address restrictions
-    - Usage analytics
-  </Tab>
-</Tabs>
+- Keep your API key secure
+- Do not share your API key in public repositories
+- Rotate your API key regularly
+- Use environment variables to store your API key in applications

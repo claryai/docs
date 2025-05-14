@@ -1,281 +1,38 @@
 ---
 title: "Documents API"
-api: "POST /api/v1/documents"
-description: "Upload and process documents"
+description: "API endpoints for document management"
 ---
 
 # Documents API
 
-The Documents API allows you to upload, process, and retrieve documents in the Clary AI platform.
+The Documents API allows you to upload, retrieve, and manage documents in Clary AI.
 
 ## Upload a Document
 
-<ParamField body="file" type="file">
-  The document file to upload (PDF, DOCX, XLSX, etc.)
-</ParamField>
-
-<ParamField body="url" type="string">
-  Alternatively, a URL to a document to process
-</ParamField>
-
-<ParamField body="options" type="object">
-  Processing options
-  
-  <Expandable title="options">
-    <ParamField body="extract_text" type="boolean" default="true">
-      Whether to extract text from the document
-    </ParamField>
-    
-    <ParamField body="extract_tables" type="boolean" default="true">
-      Whether to extract tables from the document
-    </ParamField>
-    
-    <ParamField body="extract_images" type="boolean" default="false">
-      Whether to extract images from the document
-    </ParamField>
-    
-    <ParamField body="workflow_id" type="string">
-      Optional workflow ID to apply to the document
-    </ParamField>
-  </Expandable>
-</ParamField>
-
-### Response
-
-<ResponseField name="document_id" type="string">
-  Unique identifier for the processed document
-</ResponseField>
-
-<ResponseField name="status" type="string">
-  Status of the document processing (pending, processing, completed, failed)
-</ResponseField>
-
-<ResponseField name="created_at" type="string">
-  Timestamp when the document was uploaded
-</ResponseField>
-
-<RequestExample>
-```bash cURL
-curl -X POST \
-  https://your-clary-instance:8080/api/v1/documents \
+```bash
+curl -X POST https://api.claryai.com/v1/documents \
   -H "Authorization: Bearer YOUR_API_KEY" \
-  -F "file=@/path/to/document.pdf" \
-  -F 'options={"extract_tables": true, "extract_images": true}'
+  -F "file=@document.pdf" \
+  -F "metadata={\"name\":\"Example Document\",\"tags\":[\"invoice\",\"finance\"]}"
 ```
-
-```python Python
-import requests
-
-url = "https://your-clary-instance:8080/api/v1/documents"
-headers = {
-    "Authorization": "Bearer YOUR_API_KEY"
-}
-files = {
-    "file": open("/path/to/document.pdf", "rb")
-}
-data = {
-    "options": '{"extract_tables": true, "extract_images": true}'
-}
-
-response = requests.post(url, headers=headers, files=files, data=data)
-print(response.json())
-```
-</RequestExample>
-
-<ResponseExample>
-```json
-{
-  "status": "success",
-  "data": {
-    "document_id": "doc_1a2b3c4d5e6f",
-    "status": "pending",
-    "created_at": "2024-05-14T10:30:45Z"
-  }
-}
-```
-</ResponseExample>
-
-## Get Document Status
-
-<EndpointDetails path="/api/v1/documents/{document_id}" method="GET" />
-
-Retrieve the status and metadata of a processed document.
-
-### Path Parameters
-
-<ParamField path="document_id" type="string" required>
-  The ID of the document to retrieve
-</ParamField>
-
-### Response
-
-<ResponseField name="document_id" type="string">
-  Unique identifier for the document
-</ResponseField>
-
-<ResponseField name="status" type="string">
-  Status of the document processing
-</ResponseField>
-
-<ResponseField name="metadata" type="object">
-  Document metadata
-</ResponseField>
-
-<ResponseField name="content" type="object">
-  Document content (if processing is complete)
-</ResponseField>
-
-<RequestExample>
-```bash cURL
-curl -X GET \
-  https://your-clary-instance:8080/api/v1/documents/doc_1a2b3c4d5e6f \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
-</RequestExample>
-
-<ResponseExample>
-```json
-{
-  "status": "success",
-  "data": {
-    "document_id": "doc_1a2b3c4d5e6f",
-    "status": "completed",
-    "metadata": {
-      "filename": "document.pdf",
-      "pages": 5,
-      "file_size": 1024567
-    },
-    "content": {
-      "text": "Document content...",
-      "tables": [
-        {
-          "rows": 5,
-          "columns": 3,
-          "data": [...]
-        }
-      ]
-    }
-  }
-}
-```
-</ResponseExample>
 
 ## List Documents
 
-<EndpointDetails path="/api/v1/documents" method="GET" />
-
-Retrieve a list of documents.
-
-### Query Parameters
-
-<ParamField query="page" type="integer" default="1">
-  Page number for pagination
-</ParamField>
-
-<ParamField query="limit" type="integer" default="20">
-  Number of documents per page (max: 100)
-</ParamField>
-
-<ParamField query="status" type="string">
-  Filter by document status (pending, processing, completed, failed)
-</ParamField>
-
-### Response
-
-<ResponseField name="documents" type="array">
-  List of document objects
-</ResponseField>
-
-<ResponseField name="pagination" type="object">
-  Pagination information
-</ResponseField>
-
-<RequestExample>
-```bash cURL
-curl -X GET \
-  "https://your-clary-instance:8080/api/v1/documents?page=1&limit=10&status=completed" \
+```bash
+curl -X GET https://api.claryai.com/v1/documents \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
-</RequestExample>
 
-<ResponseExample>
-```json
-{
-  "status": "success",
-  "data": {
-    "documents": [
-      {
-        "document_id": "doc_1a2b3c4d5e6f",
-        "status": "completed",
-        "created_at": "2024-05-14T10:30:45Z",
-        "metadata": {
-          "filename": "document.pdf",
-          "pages": 5
-        }
-      },
-      // More documents...
-    ],
-    "pagination": {
-      "total": 45,
-      "page": 1,
-      "limit": 10,
-      "pages": 5
-    }
-  }
-}
-```
-</ResponseExample>
+## Get Document Details
 
-## Delete Document
-
-<EndpointDetails path="/api/v1/documents/{document_id}" method="DELETE" />
-
-Delete a document and its associated data.
-
-### Path Parameters
-
-<ParamField path="document_id" type="string" required>
-  The ID of the document to delete
-</ParamField>
-
-<RequestExample>
-```bash cURL
-curl -X DELETE \
-  https://your-clary-instance:8080/api/v1/documents/doc_1a2b3c4d5e6f \
+```bash
+curl -X GET https://api.claryai.com/v1/documents/{document_id} \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
-</RequestExample>
 
-<ResponseExample>
-```json
-{
-  "status": "success",
-  "data": {
-    "message": "Document deleted successfully"
-  }
-}
+## Delete a Document
+
+```bash
+curl -X DELETE https://api.claryai.com/v1/documents/{document_id} \
+  -H "Authorization: Bearer YOUR_API_KEY"
 ```
-</ResponseExample>
-
-## Tier-Specific Features
-
-<Tabs>
-  <Tab title="Lite">
-    - Basic document upload and retrieval
-    - PDF and DOCX support
-    - Maximum file size: 10MB
-  </Tab>
-  <Tab title="Standard">
-    - All Lite features
-    - Additional file formats (XLSX, PPTX, etc.)
-    - Maximum file size: 50MB
-    - Batch processing
-  </Tab>
-  <Tab title="Professional">
-    - All Standard features
-    - All file formats
-    - Maximum file size: 200MB
-    - Priority processing
-    - Advanced extraction options
-  </Tab>
-</Tabs>
